@@ -1,0 +1,8 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.14;
+contract newcontract{
+    address public someaddress;
+    function updatesomeadress() public {
+        someaddress=msg.sender;
+    }
+}
