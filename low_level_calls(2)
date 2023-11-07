@@ -1,0 +1,26 @@
+//when we don't know that contract1 is smart contract
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.14;
+contract ContractOne {
+
+    mapping(address => uint) public addressBalances;
+
+    function getBalance() public view returns(uint) {
+        return address(this).balance;
+    }
+
+    function deposit() public payable {
+        addressBalances[msg.sender] += msg.value;
+    }
+}
+
+contract ContractTwo {
+
+    function deposit() public payable {}
+
+    function depositOnContractOne(address _contractOne) public { 
+        bytes memory payload = abi.encodeWithSignature("deposit()");
+        (bool success, ) = _contractOne.call{value: 10, gas: 100000}(payload);
+        require(success);
+    }
+}
